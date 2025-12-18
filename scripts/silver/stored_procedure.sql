@@ -1,6 +1,9 @@
 
 CREATE OR ALTER procedure silver.load_silver as
+declare @start_time datetime, @end_time datetime;
 begin
+	
+	set @start_time = getdate();
 	print'start loading cust_info'
 	truncate table silver.crm_cust_info;
 	insert into silver.crm_cust_info
@@ -207,6 +210,8 @@ begin
 	insert into silver.erp_px_cat_g1v2( id, cat, subcat, maintenance) 
 	select id, cat, subcat, maintenance from bronze.erp_px_cat_g1v2
 	print'loading erp_px_cat_g1v2completed'
+	set @end_time=getdate()
+	print +datediff(second, @end_time, @start_time)
 
 	
 
